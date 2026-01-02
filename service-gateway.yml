@@ -2,6 +2,13 @@
 spring:
   application:
     name: service-gateway
+  
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
 server:
   port: 8080
@@ -13,12 +20,3 @@ eureka:
     enabled: true
   instance:
     prefer-ip-address: true
-
-# Gateway configuration
-spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
