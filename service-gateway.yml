@@ -1,3 +1,4 @@
+# Configuration SPÉCIFIQUE service-gateway
 spring:
   application:
     name: service-gateway
@@ -5,9 +6,19 @@ spring:
 server:
   port: 8080
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    enabled: true
+  instance:
+    prefer-ip-address: true
+
+# Gateway configuration
 spring:
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
+          lower-case-service-id: true
