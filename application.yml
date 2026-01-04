@@ -12,12 +12,19 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
+      
+  # ====== DÉSACTIVER RABBITMQ GLOBALEMENT ======
+  # Pour Spring Boot 3.x, exclure SEULEMENT la classe principale
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
   
-  # ====== SUPPRIMEZ COMPLÈTEMENT L'EXCLUSION ======
-  # Chaque service gère sa propre exclusion
-  # PAS D'exclusion ici !
-  # autoconfigure:
-  #   exclude: 
+  # ====== Configuration RabbitMQ (commentée) ======
+  # rabbitmq:
+  #   host: localhost
+  #   port: 5672
+  #   username: admin
+  #   password: admin
+  #   connection-timeout: 5000
 
 eureka:
   client:
