@@ -9,26 +9,17 @@ spring:
     username: root
     password: Kawtar
   
-  # ========== CONFIGURATION RABBITMQ CORRIGÉE ==========
-  # Configuration minimale pour démarrer
+  # ========== CONFIGURATION RABBITMQ SIMPLIFIÉE ==========
+  # Configuration TRÈS simple pour éviter les erreurs
   rabbitmq:
     host: localhost
     port: 5672
-    # Essayer d'abord sans authentification (pour développement)
-    # username: guest
-    # password: guest
-    connection-timeout: 3000
-    # Désactiver les listeners au démarrage pour éviter les erreurs
-    listener:
-      simple:
-        auto-startup: false
-        missing-queues-fatal: false
-  
-  # ========== OVERRIDE L'EXCLUSION GLOBALE ==========
-  # Si vous avez une exclusion globale dans application.yml,
-  # cette ligne la remplace pour service-commande
+    # Pas de username/password pour le développement
+    
+  # ========== EXCLURE RABBITMQ TEMPORAIREMENT ==========
+  # Solution TEMPORAIRE : exclure RabbitMQ pour démarrer
   autoconfigure:
-    exclude:  # Vide - pas d'exclusion pour ce service
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
 
 # URLs des autres services
 service:
@@ -36,7 +27,7 @@ service:
     url: http://localhost:8082
   produit:
     url: http://localhost:8083
-
+    
 # Configuration Resilience4j pour service-commande
 resilience4j:
   circuitbreaker:
