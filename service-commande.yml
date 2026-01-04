@@ -7,20 +7,25 @@ spring:
     url: jdbc:mysql://localhost:3306/commande_db?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
     password: Kawtar
+    driver-class-name: com.mysql.cj.jdbc.Driver  # AJOUTEZ CE CI !
   
-  # ====== OVERRIDE : ACTIVER RABBITMQ pour ce service ======
-  # Remplace l'exclusion globale par une configuration vide
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  
+  # ====== CORRECTION : exclusion EXPLICITE vide ======
   autoconfigure:
-    exclude:  # Vide - pas d'exclusion
+    exclude: []  # Liste VIDE explicitement, pas un commentaire !
   
-  # Configuration RabbitMQ minimale
+  # Configuration RabbitMQ
   rabbitmq:
     host: localhost
     port: 5672
-    # Pas d'authentification pour développement
     listener:
       simple:
-        auto-startup: false  # IMPORTANT : désactiver les listeners au démarrage
+        auto-startup: false
+        missing-queues-fatal: false
 
 # URLs des autres services
 service:

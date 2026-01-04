@@ -13,11 +13,12 @@ spring:
     hikari:
       maximum-pool-size: 10
   
-  # ====== COMMENTEZ L'EXCLUSION GLOBALE ======
+  # ====== MODIFIEZ L'EXCLUSION ======
+  # Soit commentez-la complètement
   # autoconfigure:
   #   exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
   
-  # ====== À LA PLACE, configuration par défaut ======
+  # Soit remplacez par une configuration par défaut
   rabbitmq:
     host: localhost
     port: 5672
