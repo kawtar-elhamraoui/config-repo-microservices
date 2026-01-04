@@ -1,4 +1,3 @@
-# Configuration SPÉCIFIQUE service-commande
 server:
   port: 8084
 
@@ -9,17 +8,19 @@ spring:
     username: root
     password: Kawtar
   
-  # ========== CONFIGURATION RABBITMQ SIMPLIFIÉE ==========
-  # Configuration TRÈS simple pour éviter les erreurs
+  # ====== OVERRIDE : ACTIVER RABBITMQ pour ce service ======
+  # Remplace l'exclusion globale par une configuration vide
+  autoconfigure:
+    exclude:  # Vide - pas d'exclusion
+  
+  # Configuration RabbitMQ minimale
   rabbitmq:
     host: localhost
     port: 5672
-    # Pas de username/password pour le développement
-    
-  # ========== EXCLURE RABBITMQ TEMPORAIREMENT ==========
-  # Solution TEMPORAIRE : exclure RabbitMQ pour démarrer
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+    # Pas d'authentification pour développement
+    listener:
+      simple:
+        auto-startup: false  # IMPORTANT : désactiver les listeners au démarrage
 
 # URLs des autres services
 service:
@@ -27,7 +28,7 @@ service:
     url: http://localhost:8082
   produit:
     url: http://localhost:8083
-    
+
 # Configuration Resilience4j pour service-commande
 resilience4j:
   circuitbreaker:
