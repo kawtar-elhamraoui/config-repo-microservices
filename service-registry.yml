@@ -1,12 +1,4 @@
 # Configuration SPÉCIFIQUE service-registry
-spring:
-  application:
-    name: service-registry  
-  
-  config:
-    activate:
-      on-profile: default
-
 server:
   port: 8761
 
@@ -17,9 +9,3 @@ eureka:
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
-    renewal-percent-threshold: 0.85
-
-logging:
-  level:
-    com.netflix.eureka: INFO
-    com.netflix.discovery: INFO

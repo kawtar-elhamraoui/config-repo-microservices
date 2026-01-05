@@ -1,42 +1,25 @@
 # Configuration SPÉCIFIQUE service-client
-spring:
-  application:
-    name: service-client  # ← AJOUTÉ ICI
-  
-  config:
-    activate:
-      on-profile: default
-
 server:
   port: 8082
 
-# Base de données service-client
 spring:
+  application:
+    name: service-client
+  # Base de données service-client
   datasource:
     url: jdbc:mysql://localhost:3306/client_db?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
     password: Kawtar
-    driver-class-name: com.mysql.cj.jdbc.Driver
   
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-  
-  # Configuration RabbitMQ
+  # RabbitMQ spécifique (optionnel, hérite du global)
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
     listener:
       simple:
         auto-startup: true
-        missing-queues-fatal: false
         concurrency: 1
         max-concurrency: 3
 
-# Configuration Resilience4j
+# Resilience4j
 resilience4j:
   circuitbreaker:
     instances:
@@ -44,18 +27,7 @@ resilience4j:
         slidingWindowSize: 10
         minimumNumberOfCalls: 5
 
-# Configuration Eureka
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}
-
-# Logging spécifique
 logging:
   level:
     com.exemple.client: DEBUG
-    org.springframework.amqp: DEBUG
     com.exemple.client.service.NotificationService: DEBUG
