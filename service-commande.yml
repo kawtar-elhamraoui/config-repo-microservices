@@ -24,7 +24,7 @@ spring:
     port: 5672
     listener:
       simple:
-        auto-startup: true
+        auto-startup: false
         missing-queues-fatal: false
 
 # URLs des autres services
