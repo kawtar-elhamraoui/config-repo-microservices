@@ -18,7 +18,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: iotprojet38@gmail.com
-    password: pzqi cgqc zapy rbpx
+    password: nvls dhsx eqau rmbo
     properties:
       mail:
         smtp:
