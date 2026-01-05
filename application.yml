@@ -1,6 +1,5 @@
 # Configuration GLOBALE pour TOUS les services
 spring:
-  # Configuration JPA
   jpa:
     hibernate:
       ddl-auto: update
@@ -9,29 +8,24 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   
-  # Configuration DataSource
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
   
-  # Configuration RabbitMQ
+  # ====== MODIFIEZ L'EXCLUSION ======
+  # Soit commentez-la complètement
+  # autoconfigure:
+  #   exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  
+  # Soit remplacez par une configuration par défaut
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
     listener:
       simple:
         auto-startup: true
-        missing-queues-fatal: false
-  
-  # Configuration Profiles
-  profiles:
-    active: default
-    include: common
 
-# Configuration Eureka
 eureka:
   client:
     service-url:
@@ -39,7 +33,6 @@ eureka:
   instance:
     prefer-ip-address: true
 
-# Configuration Actuator
 management:
   endpoints:
     web:
@@ -49,9 +42,6 @@ management:
     health:
       show-details: always
 
-# Configuration Logging
 logging:
   level:
     root: INFO
-    org.springframework.web: INFO
-    com.exemple: DEBUG
