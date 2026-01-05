@@ -7,25 +7,25 @@ spring:
     url: jdbc:mysql://localhost:3306/commande_db?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
     password: Kawtar
-    driver-class-name: com.mysql.cj.jdbc.Driver  # AJOUTEZ CE CI !
+    driver-class-name: com.mysql.cj.jdbc.Driver
   
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
   
-  # ====== CORRECTION : exclusion EXPLICITE vide ======
-  autoconfigure:
-    exclude: []  # Liste VIDE explicitement, pas un commentaire !
-  
   # Configuration RabbitMQ
   rabbitmq:
     host: localhost
     port: 5672
+    username: guest
+    password: guest
     listener:
       simple:
-        auto-startup: false
+        auto-startup: true
         missing-queues-fatal: false
+        concurrency: 1
+        max-concurrency: 3
 
 # URLs des autres services
 service:
@@ -59,6 +59,15 @@ resilience4j:
       produitService:
         baseConfig: default
 
+# Configuration Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
 management:
   endpoints:
     web:
@@ -75,3 +84,5 @@ management:
 logging:
   level:
     com.exemple.commande: DEBUG
+    org.springframework.amqp: INFO
+    com.exemple.commande.service.CommandeService: DEBUG

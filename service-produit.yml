@@ -8,6 +8,30 @@ spring:
     url: jdbc:mysql://localhost:3306/produit_db?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
     password: Kawtar
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  
+  # ====== CONFIGURATION RABBITMQ AJOUTÉE ======
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        auto-startup: true
+        missing-queues-fatal: false
+        concurrency: 1
+        max-concurrency: 3
+
+# URLs des autres services
+service:
+  client:
+    url: http://localhost:8082
 
 # Configuration Resilience4j pour service-produit
 resilience4j:
@@ -21,6 +45,23 @@ resilience4j:
     instances:
       clientService:
         baseConfig: default
+  
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 3s
+    instances:
+      clientService:
+        baseConfig: default
+
+# Configuration Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
 
 management:
   endpoints:
@@ -30,7 +71,13 @@ management:
   endpoint:
     circuitbreakers:
       enabled: true
+  resilience4j:
+    circuitbreaker:
+      metrics:
+        enabled: true
 
 logging:
   level:
     com.exemple.produit: DEBUG
+    org.springframework.amqp: INFO
+    com.exemple.produit.service.CommandeEventHandler: DEBUG

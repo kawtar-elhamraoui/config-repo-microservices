@@ -1,5 +1,8 @@
 # Configuration GLOBALE pour TOUS les services
 spring:
+  application:
+    name: ${vault.application.name}
+  
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,36 +15,75 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
   
-  # ====== MODIFIEZ L'EXCLUSION ======
-  # Soit commentez-la complètement
-  # autoconfigure:
-  #   exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
-  
-  # Soit remplacez par une configuration par défaut
+  # Configuration RabbitMQ GLOBALE
   rabbitmq:
     host: localhost
     port: 5672
+    username: guest
+    password: guest
+    connection-timeout: 5000
     listener:
       simple:
-        auto-startup: false
+        auto-startup: true
+        missing-queues-fatal: false
+        default-requeue-rejected: false
+        prefetch: 1
 
+# Configuration Eureka GLOBALE
 eureka:
   client:
+    enabled: true
+    fetch-registry: true
+    register-with-eureka: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+    registry-fetch-interval-seconds: 5
   instance:
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
 
+# Configuration Actuator GLOBALE
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,env,beans
+      base-path: /actuator
+    enabled-by-default: true
   endpoint:
     health:
       show-details: always
+      show-components: always
+    metrics:
+      enabled: true
+  health:
+    rabbit:
+      enabled: true
+  info:
+    env:
+      enabled: true
 
+# Configuration Logging GLOBALE
 logging:
   level:
     root: INFO
+    org.springframework.web: INFO
+    org.hibernate: INFO
+    com.exemple: DEBUG
+    org.springframework.amqp: INFO
+    org.springframework.cloud: INFO
+    com.netflix: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %-5level - %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/${spring.application.name}.log
+    max-size: 10MB
+    max-history: 30
