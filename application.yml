@@ -1,8 +1,6 @@
-# Configuration GLOBALE pour TOUS les services
+
 spring:
-  application:
-    name: ${vault.application.name}
-  
+  # === DATABASE ===
   jpa:
     hibernate:
       ddl-auto: update
@@ -20,7 +18,7 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
   
-  # Configuration RabbitMQ GLOBALE
+  # === RABBITMQ ===
   rabbitmq:
     host: localhost
     port: 5672
@@ -34,7 +32,7 @@ spring:
         default-requeue-rejected: false
         prefetch: 1
 
-# Configuration Eureka GLOBALE
+# === EUREKA ===
 eureka:
   client:
     enabled: true
@@ -47,9 +45,8 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
 
-# Configuration Actuator GLOBALE
+# === ACTUATOR ===
 management:
   endpoints:
     web:
@@ -70,7 +67,7 @@ management:
     env:
       enabled: true
 
-# Configuration Logging GLOBALE
+# === LOGGING ===
 logging:
   level:
     root: INFO
@@ -83,7 +80,3 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %-5level - %logger{36} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-  file:
-    name: logs/${spring.application.name}.log
-    max-size: 10MB
-    max-history: 30

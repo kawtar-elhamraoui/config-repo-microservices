@@ -1,4 +1,12 @@
 # Configuration SPÉCIFIQUE service-produit
+spring:
+  application:
+    name: service-produit  
+  
+  config:
+    activate:
+      on-profile: default
+
 server:
   port: 8083
 
@@ -15,7 +23,7 @@ spring:
       ddl-auto: update
     show-sql: true
   
-  # ====== CONFIGURATION RABBITMQ AJOUTÉE ======
+  # Configuration RabbitMQ
   rabbitmq:
     host: localhost
     port: 5672
@@ -33,7 +41,7 @@ service:
   client:
     url: http://localhost:8082
 
-# Configuration Resilience4j pour service-produit
+# Configuration Resilience4j
 resilience4j:
   circuitbreaker:
     configs:
@@ -63,21 +71,9 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics,circuitbreakers
-  endpoint:
-    circuitbreakers:
-      enabled: true
-  resilience4j:
-    circuitbreaker:
-      metrics:
-        enabled: true
-
+# Logging spécifique
 logging:
   level:
     com.exemple.produit: DEBUG
-    org.springframework.amqp: INFO
+    org.springframework.amqp: DEBUG
     com.exemple.produit.service.CommandeEventHandler: DEBUG

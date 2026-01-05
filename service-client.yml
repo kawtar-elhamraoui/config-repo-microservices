@@ -1,4 +1,12 @@
 # Configuration SPÉCIFIQUE service-client
+spring:
+  application:
+    name: service-client  # ← AJOUTÉ ICI
+  
+  config:
+    activate:
+      on-profile: default
+
 server:
   port: 8082
 
@@ -15,7 +23,7 @@ spring:
       ddl-auto: update
     show-sql: true
   
-  # ====== CONFIGURATION RABBITMQ AJOUTÉE ======
+  # Configuration RabbitMQ
   rabbitmq:
     host: localhost
     port: 5672
@@ -28,7 +36,7 @@ spring:
         concurrency: 1
         max-concurrency: 3
 
-# Configuration Resilience4j pour service-client
+# Configuration Resilience4j
 resilience4j:
   circuitbreaker:
     instances:
@@ -45,17 +53,9 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
 
-# Configuration Actuator
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics
-  endpoint:
-    health:
-      show-details: always
-
+# Logging spécifique
 logging:
   level:
     com.exemple.client: DEBUG
-    org.springframework.amqp: INFO
+    org.springframework.amqp: DEBUG
+    com.exemple.client.service.NotificationService: DEBUG

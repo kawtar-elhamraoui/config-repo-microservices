@@ -1,3 +1,12 @@
+# Configuration SPÉCIFIQUE service-commande
+spring:
+  application:
+    name: service-commande  
+  
+  config:
+    activate:
+      on-profile: default
+
 server:
   port: 8084
 
@@ -34,7 +43,7 @@ service:
   produit:
     url: http://localhost:8083
 
-# Configuration Resilience4j pour service-commande
+# Configuration Resilience4j
 resilience4j:
   circuitbreaker:
     configs:
@@ -68,21 +77,9 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics,circuitbreakers,prometheus
-  endpoint:
-    circuitbreakers:
-      enabled: true
-  resilience4j:
-    circuitbreaker:
-      metrics:
-        enabled: true
-
+# Logging spécifique
 logging:
   level:
     com.exemple.commande: DEBUG
-    org.springframework.amqp: INFO
+    org.springframework.amqp: DEBUG
     com.exemple.commande.service.CommandeService: DEBUG

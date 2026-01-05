@@ -1,4 +1,12 @@
 # Configuration SPÉCIFIQUE service-gateway
+spring:
+  application:
+    name: service-gateway  
+  
+  config:
+    activate:
+      on-profile: default
+
 server:
   port: 8080
 
@@ -10,6 +18,16 @@ spring:
           enabled: true
           lower-case-service-id: true
 
+# Configuration Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+# Logging spécifique
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
+    com.example.gateway: DEBUG
