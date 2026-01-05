@@ -14,17 +14,22 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
+
   mail:
     host: smtp.gmail.com
     port: 587
     username: iotprojet38@gmail.com
     password: nvls dhsx eqau rmbo
+    protocol: smtp
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
   # Configuration RabbitMQ
   rabbitmq:
     host: localhost
